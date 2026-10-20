@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BJJ Training Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="game.js" defer></script>
+  <script src="board.js" defer></script>
+  <script src="form.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <h1>BJJ Training Hub</h1>
+    <nav aria-label="Sections">
+      <a href="#game">Sparring</a>
+      <a href="#board">Training board</a>
+      <a href="#booking">Book a mat</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- TASK 1 -->
+    <section id="game" aria-labelledby="game-title">
+      <h2 id="game-title">Task 1 · Sparring round</h2>
+      <p class="lead">Roll with the opponent: attack, defend or catch your breath. Whoever reaches 0 HP taps out.</p>
+      <div class="fighters">
+        <div class="fighter">
+          <h3>You <span id="hero-hp-text" class="hp-text"></span></h3>
+          <progress id="hero-hp" class="hp hp--hero" value="0" max="1"></progress>
+        </div>
+        <div class="fighter">
+          <h3>Opponent <span id="enemy-hp-text" class="hp-text"></span></h3>
+          <progress id="enemy-hp" class="hp hp--enemy" value="0" max="1"></progress>
+        </div>
+      </div>
+      <p id="game-status" class="status" role="status"></p>
+      <div class="actions">
+        <button type="button" id="btn-attack"></button>
+        <button type="button" id="btn-defend"></button>
+        <button type="button" id="btn-heal"></button>
+        <button type="button" id="btn-restart" class="secondary">New round</button>
+      </div>
+      <h3>Last actions</h3>
+      <ol id="game-log" class="log" aria-live="polite"></ol>
+    </section>
+
+    <!-- TASK 2 -->
+    <section id="board" aria-labelledby="board-title">
+      <h2 id="board-title">Task 2 · Technique training board</h2>
+      <p class="lead">Move techniques from “To learn” to “Mastered”. You can drill at most 3 at once.</p>
+      <div class="controls">
+        <label>Search <input type="search" id="search" placeholder="e.g. armbar"></label>
+        <label>Tag <select id="filter-tag"><option value="all">All tags</option></select></label>
+        <label>Sort by
+          <select id="sort">
+            <option value="priority">Priority</option>
+            <option value="title">Title (A–Z)</option>
+            <option value="minutes">Minutes (longest first)</option>
+          </select>
+        </label>
+      </div>
+      <div class="progress-box">
+        <label for="progress">Mastered: <span id="progress-text"></span></label>
+        <progress id="progress" value="0" max="1"></progress>
+      </div>
+      <p id="board-msg" class="status" role="status"></p>
+      <p id="board-empty" class="empty" hidden>No techniques match your search or filter.</p>
+      <div id="board-columns" class="board"></div>
+    </section>
+
+    <!-- TASK 3 -->
+    <section id="booking" aria-labelledby="booking-title">
+      <h2 id="booking-title">Task 3 · Book a mat</h2>
+      <p class="lead">Open mats and seminars take place on Saturdays. The ticket preview updates while you type.</p>
+      <div class="booking-grid">
+        <form id="booking-form" aria-describedby="form-summary">
+          <div id="form-summary" class="form-summary" role="alert" tabindex="-1" hidden></div>
+
+          <div class="field">
+            <label for="event">Event</label>
+            <select id="event" name="event" required aria-describedby="event-error"></select>
+            <p class="error" id="event-error"></p>
+          </div>
+          <div class="field">
+            <label for="date">Date (Saturdays only)</label>
+            <input type="date" id="date" name="date" required aria-describedby="date-error">
+            <p class="error" id="date-error"></p>
+          </div>
+          <div class="field">
+            <label for="type">Ticket type</label>
+            <select id="type" name="type" required aria-describedby="type-error"></select>
+            <p class="error" id="type-error"></p>
+          </div>
+          <div class="field">
+            <label for="qty">Quantity</label>
+            <input type="number" id="qty" name="qty" min="1" max="10" step="1" required aria-describedby="qty-error qty-hint">
+            <p class="hint" id="qty-hint"></p>
+            <p class="error" id="qty-error"></p>
+          </div>
+          <div class="field">
+            <label for="name">Full name</label>
+            <input type="text" id="name" name="name" required minlength="3" maxlength="40" autocomplete="name" aria-describedby="name-error">
+            <p class="error" id="name-error"></p>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required autocomplete="email" aria-describedby="email-error">
+            <p class="error" id="email-error"></p>
+          </div>
+          <div class="field">
+            <label for="promo">Promo code (optional)</label>
+            <input type="text" id="promo" name="promo" maxlength="12" autocomplete="off" aria-describedby="promo-error">
+            <p class="error" id="promo-error"></p>
+          </div>
+          <button type="submit">Book tickets</button>
+        </form>
+
+        <aside class="preview" aria-label="Ticket preview">
+          <h3>Ticket preview</h3>
+          <dl>
+            <dt>Event</dt><dd id="pv-event"></dd>
+            <dt>Date</dt><dd id="pv-date"></dd>
+            <dt>Ticket</dt><dd id="pv-type"></dd>
+            <dt>Quantity</dt><dd id="pv-qty"></dd>
+            <dt>Name</dt><dd id="pv-name"></dd>
+            <dt>Email</dt><dd id="pv-email"></dd>
+            <dt>Promo</dt><dd id="pv-promo"></dd>
+            <dt>Total</dt><dd id="pv-total" class="total"></dd>
+          </dl>
+          <div id="ticket-result" aria-live="polite"></div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer>BJJ Training Hub · Assignment #5</footer>
+</body>
+</html>
